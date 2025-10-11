@@ -3,6 +3,8 @@
 Dockerfile e docker-compose.yml presi da [qui](https://github.com/br0kenpixel/xampp2docker)
 e personalizzati per funzionare "out of the box" su Project IDX (NixOS).
 
+TONELLI LUCA 5CM
+
 ## Obiettivo
 Configurare un ambiente di sviluppo cloud per web-app con MariaDB e phpMyAdmin utilizzando Docker, assicurando che:
 - Il DB sia accessibile da remoto con PHPMyAdmin.
