@@ -6,8 +6,118 @@
     <title>Prima pagina 5CM</title>
 </head>
 <body>
-    <!-- tag da 1 a 7 -->
-    <h1> Marconi Pieralisi - Jesi </h1>
-    <h3> Sottotitolo </h3>
+    <header>
+        <!-- tag da 1 a 7 -->
+        <h1> Marconi Pieralisi - Jesi </h1>
+        <h3> Simulazione del sito della scuola </h3>
+        <nav>   <!-- tag per la navbar barra orizzontale -->
+            <ul>    <!-- Elenco non ordinato -->
+                <li><a href="">Informatica</a></li>
+                <li><a href="">Sistemi</a></li>
+
+                <li><a href="progettoAnno.html">Progetto dell'anno</a></li>
+             </ul>
+         </nav>
+    </header>
+
+    <!-- 3. Titolo pagina (pagina): Pagina della classe 5CM -->
+    <h1 id="titolo">Pagina della classe 5CM</h1>
+    
+    <section name="laboratori">     <!-- tag semanico: non visualizzato nella pagina -->
+      <!-- 4. Elenco numerato: elenco dei laboratori di indirizzo (materie di indirizzo) -->
+    <ol>
+      <li>Laboratorio di Informatica 2-21</li>
+      <li>Laboratorio di Sistemi 2-20</li>
+      <li>Laboratorio di Tpsit 2-19</li>
+   </ol>
+    </section>
+
+    <section name="orario">
+        <p>Orario di lezione</p>
+        <table>
+            <tr>    <!-- riga -->
+                <th>Orario</th> <!-- riga di intestazione -->
+                <th>Lunedì</th>
+                <th>Martedì</th>
+                <th>Mercoledì</th>
+                <th>Giovedì</th>
+                <th>Venerdì</th>
+                <th>Sabato</th>
+            </tr>
+
+            <tr>    <!-- riga con la prima ora -->
+                <td>1 ora</td>      <!-- tdata -->
+                <td rowspan="2">Informatica</td>      <!-- lun -->
+                <td rowspan="2">TPSIT</td>      <!-- mart -->
+                <td>Sistemi</td>      <!-- merc -->
+                <td>TPSIT</td>      <!-- giov -->
+                <td>GPOI</td>      <!-- ven -->
+                <td>Informatica</td>      <!-- sab -->
+            </tr>
+
+            <tr>    <!-- riga con le seconde ore -->
+                <td>2 ora</td>      <!-- tdata -->
+                <td>Inglese</td>      <!-- merc -->
+                <td rowspan="2">Scienze Motorie</td>      <!-- giov -->
+                <td>Matematica</td>      <!-- ven -->
+                <td rowspan="2">GPOI</td>      <!-- sab -->
+            </tr>
+
+            <tr>    <!-- riga con le terze ore -->
+                <td>3 ora</td>      <!-- tdata -->
+                <td rowspan="2">Sistemi</td>      <!-- lun -->
+                <td> REC/POT </td>      <!-- mart -->
+                <td>Italiano</td>      <!-- merc -->
+                <td rowspan="2"> Inglese </td>      <!-- ven -->
+            </tr>
+
+            <tr>    <!-- riga con le quarte ore -->
+                <td>4 ora</td>      <!-- tdata -->
+                <td>Sistemi</td>      <!-- mart -->
+                <td rowspan="3">Informatica</td>      <!-- merc -->
+                <td> Storia </td>      <!-- giov -->
+                <td> Matematica </td>      <!-- sab -->
+            </tr>
+
+            <tr>    <!-- riga con le quinte ore -->
+                <td>5 ora</td>      <!-- tdata -->
+                <td>Matematica</td>      <!-- lun -->
+                <td>Italiano</td>      <!-- mart -->
+                <td> Religione </td>      <!-- giov -->
+                <td rowspan="2"> Italiano </td>      <!-- ven -->
+                <td> IA </td>      <!-- sab -->
+            </tr>
+
+            <tr>    <!-- riga con le seste ore -->
+                <td>6 ora</td>      <!-- tdata -->
+                <td>Storia</td>      <!-- lun -->
+            </tr>
+        </table>
+
+    </section>
+
+    <section name="immagini">
+        <br>
+     <!-- 7. Link: link del sito della scuola, che si deve aprire in un'altra finestra -->
+
+     <a href="http://www.iismarconipieralisi.it"  rel="noopener noreferrer" target="_blank">Link al sito del IIS Marconi Pieralisi</a>
+     <br>
+
+     <!-- 8. Immagine: immagine della scuola, con il collegamento al sito della scuola -->
+     <a href="http://www.iismarconipieralisi.it" target="_blank" rel="noopener noreferrer"><img src="img/iisMarconiPieralisi.jpeg" alt="Iis Marconi Pieralisi">  </a>
+
+     <br>
+    </section>  
+    
+
+       <footer>
+         <p>
+            Indirizzo
+            Via Raffaello Sanzio, 8
+            60035 - JESI (AN)
+         </p>
+
+       </footer>
+    </section>
 </body>
 </html>
