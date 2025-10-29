@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
+    <!--collegamento foglio di stile esterno nella cartella css di nome stile.css-->
+    <link rel="stylesheet" type="text/css" href="css/stile.css">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prima pagina 5CM</title>
@@ -23,16 +26,24 @@
     <!-- 3. Titolo pagina (pagina): Pagina della classe 5CM -->
     <h1 id="titolo">Pagina della classe 5CM</h1>
     
+    <!-- Foglio di stile incorporato-->
+     <style type="text/css">
+        body
+        {
+            background: #FFFFCC;
+        }
+     </style>
+
     <section name="laboratori">     <!-- tag semanico: non visualizzato nella pagina -->
       <!-- 4. Elenco numerato: elenco dei laboratori di indirizzo (materie di indirizzo) -->
     <ol>
-      <li>Laboratorio di Informatica 2-21</li>
+      <li style="color: blueviolet;">Laboratorio di Informatica 2-21</li>
       <li>Laboratorio di Sistemi 2-20</li>
       <li>Laboratorio di Tpsit 2-19</li>
    </ol>
     </section>
 
-    <section name="orario">
+    <section name="orario" class="orario">
         <p>Orario di lezione</p>
         <table>
             <tr>    <!-- riga -->
@@ -97,14 +108,14 @@
     </section>
 
     <section name="immagini">
-        <br>
+        <br>    <!-- mette riga vuota -->
      <!-- 7. Link: link del sito della scuola, che si deve aprire in un'altra finestra -->
 
-     <a href="http://www.iismarconipieralisi.it"  rel="noopener noreferrer" target="_blank">Link al sito del IIS Marconi Pieralisi</a>
+     <a href="http://www.iismarconipieralisi.it" target="_blank">Link al sito del IIS Marconi Pieralisi</a>
      <br>
 
      <!-- 8. Immagine: immagine della scuola, con il collegamento al sito della scuola -->
-     <a href="http://www.iismarconipieralisi.it" target="_blank" rel="noopener noreferrer"><img src="img/iisMarconiPieralisi.jpeg" alt="Iis Marconi Pieralisi">  </a>
+     <a href="http://www.iismarconipieralisi.it" target="_blank"><img src="img/iisMarconiPieralisi.jpeg" alt="IIS Marconi Pieralisi"></a>
 
      <br>
     </section>  
@@ -112,12 +123,11 @@
 
        <footer>
          <p>
-            Indirizzo
+            Indirizzo:
             Via Raffaello Sanzio, 8
             60035 - JESI (AN)
          </p>
 
        </footer>
-    </section>
 </body>
 </html>
