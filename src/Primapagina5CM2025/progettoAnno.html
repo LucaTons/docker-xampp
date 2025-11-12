@@ -13,7 +13,7 @@
 <body>
     <header>
         <!-- tag da 1 a 7 -->
-        <h1> Marconi Pieralisi - Jesi </h1>
+        <a href="https://3000-firebase-docker-xampp-mio-1760179786541.cluster-lu4mup47g5gm4rtyvhzpwbfadi.cloudworkstations.dev/Primapagina5CM2025/index.html"> <h1> Marconi Pieralisi - Jesi </h1> </a>
         <h3> Simulazione del sito della scuola </h3>
         <nav>   <!-- tag per la navbar barra orizzontale -->
             <ul>    <!-- Elenco non ordinato -->
@@ -117,6 +117,43 @@
         }
 
     </style>
+
+    <section>
+        <form name="registrazione">
+            <!-- input tipo text -->
+            <label for="fname">Nome:</label>
+            <input type="text" id="fname" name="fname"> Nome </label>
+
+            <label for="lname">Nome:</label>
+            <input type="text" id="lname" name="lname"> Cognome </label>
+
+            <!-- Citta select - selezione fra diverse opzioni -->
+            <label for="citta_nascita">Città di nascita</label><br>
+
+            <select id="citta_nascita" name="citta_nascita" required>
+                <option value=""></option>
+                <option value="Ancona"></option>
+                <option value="Jesi"></option>
+                <option value="Monsano"></option>
+            </select><br><br>
+
+            <!-- input tipo date -->
+            <label for="data_nascita">Data di nascita</label><br>
+            <input type="date" id="data_nascita" name="data_nascita" required><br><br>
+
+            <!-- input tipo radio -->
+            <label for="genere">Genere</label><br>
+            <input type="radio" id="maschile" name="maschile" value="m">Maschio<br>
+            <label for="maschile">maschile</label><br>
+            <input type="radio" id="femminile" name="femminile" value="f">Femmina<br><br>
+            <label for="femminile">femminile</label><br><br>
+
+            <!-- input tipo button (submit prevede invio modulo) -->
+            <input type="submit" value="Invio" onclick="stampadati()">           
+
+        </form><br><br>
+    </section>
+
     <footer>
         <p>
         Indirizzo:
