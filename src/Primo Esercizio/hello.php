@@ -16,13 +16,14 @@
         
         $connection = new mysqli($host, $user, $password, $dbname, $port);
         
-        if ($connection->connect_error) {
+        if ($connection->connect_error) 
+        {
             die("Errore di connessione: " . $connection->connect_error);
         }
         
         echo "Connessione al database riuscita con mysqli!";
         
-        $email = "nicola@ciao.it";
+        $email = "luca@gmail.it";
         $password = "ciaociao";
         
         $query = "SELECT * FROM Users WHERE email = '$email' AND password = '$password'";
@@ -33,11 +34,19 @@
         
         $result = $connection->query($query);
 
-        var_dump($result);
+        //var_dump($result);
 
+        echo "<br>";
+        if($result->num_rows >0)
+        {
+            echo "Login effettuato correttamente!";
+        }
+        else
+        {
+            echo "Login non effettuato!";
+        }
+        
         $connection->close();
     ?>
-
-    Prova!
 </body>
 </html>
