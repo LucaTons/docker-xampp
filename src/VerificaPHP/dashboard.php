@@ -6,7 +6,7 @@ if(isset($_SESSION['auth']) && $_SESSION['auth'])
 {
     //inserimento nome giocattolo e nome elfo
     echo '<section>';
-    echo '<form name="Giocattoli_POST" method="POST" action="prodGiocattoli".php>';
+    echo '<form name="Giocattoli_POST" method="POST" action="prodGiocattoli.php">';
 
     echo '<label for="nome_giocattolo"> Nome Giocattolo </label>';
     echo '<input type=text id="nomeGiocattolo" name="nomeGiocattolo">';
@@ -23,7 +23,7 @@ if(isset($_SESSION['auth']) && $_SESSION['auth'])
 
     //visualizzare tabella giocattoli
     echo '<section>';
-    echo <'a href="prodElfi.php"> Visualizza i giocattoli degli elfi</a>';
+    echo '<a href="prodElfi.php"> Visualizza i giocattoli degli elfi</a>';
     echo'<br>';
     echo '</section>';
 
