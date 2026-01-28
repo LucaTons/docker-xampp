@@ -1,7 +1,17 @@
 <?php
 session_start();
 
-require_once "db.php";
+$host = 'db';
+$dbname = 'Chatrooms';
+$user = 'user';
+$password = 'user';
+$port = 3306;
+
+$connection = new mysqli($host, $user, $password, $dbname, $port);
+
+if ($connection->connect_error) {
+    die("Errore di connessione: " . $connection->connect_error);
+}
 
 $error_message = "";
 
@@ -45,28 +55,35 @@ if ($_POST && isset($_POST['username']) && isset($_POST['password'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Chatrooms</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h2>Accedi</h2>
-    
-    <?php if ($error_message)
-        echo htmlspecialchars($error_message); 
-    ?>
-    
-    <form action="login.php" method="POST">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username">
-        <br>
-        <br>
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password">
-        </br>
-        <br>
-        <button type="submit"">Accedi</button>
-        </br>
-    </form>
-    <br><br>Non hai un account? <a href="register.php">Registrati</a></br></br>
-    
+    <div class="auth-container">
+        <div class="auth-box">
+            <h2>Accedi</h2>
+            
+            <?php if ($error_message): ?>
+                <div class="message error"><?php echo htmlspecialchars($error_message); ?></div>
+            <?php endif; ?>
+            
+            <form action="login.php" method="POST">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required autofocus>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <button type="submit" class="btn-primary">Accedi</button>
+            </form>
+            
+            <div class="auth-link">
+                Non hai un account? <a href="register.php">Registrati</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
