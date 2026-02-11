@@ -8,13 +8,17 @@ if ($_SESSION && isset($_SESSION['username']))
     if ($_GET && isset($_GET['room_id']))
     {
         $stanza = $_GET['room_id'];
-        $nome = $_GET['NomeStanza'];
-        echo "Messaggi della stanza $nome";
+        $queryNomeStanza = "SELECT Nome FROM Chatroom WHERE ID = $stanza";
+        $result = $connection->query($queryNomeStanza);
+        $row2 = $result->fetch_assoc();
+        echo "Messaggi della stanza " . $row2['Nome'];
         echo "<br>";
         //query dalla tabella messaggi e visualizzo i contenuti
-        $query = "SELECT * FROM Messaggi WHERE NomeStanza = $stanza";
+        $nomeStanza = $row2['Nome'];
+        $query = "SELECT * FROM Messaggi WHERE NomeStanza = '$nomeStanza'";
         $result = $connection->query($query);
-        if($result->num_rows > 0)
+        var_dump($result->num_rows);
+        if ($result->num_rows > 0)
         {
             while($row = $result->fetch_assoc())
             {
@@ -24,6 +28,15 @@ if ($_SESSION && isset($_SESSION['username']))
                 echo "<br>";
             }
         }
+    }
+    if ($_POST && isset($_POST['messaggio']))
+    {
+        $msg = $_POST['messaggio'];
+        $user = $_SESSION['username'];
+        var_dump($msg);
+        $queryInsMsg = "INSERT INTO Messaggi (`Testo`, `NomeStanza`, `User`) VALUES ('$msg','Prova', '$user')";
+        var_dump($queryInsMsg);
+        $result = $connection->query($queryInsMsg);
     }
 }
 

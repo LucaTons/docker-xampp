@@ -24,8 +24,6 @@ if ($_POST && isset($_POST['username']) && isset($_POST['password'])) {
         if ($hashed_password !== null && password_verify($password_input, $hashed_password)) {
             $_SESSION['auth'] = true;
             $_SESSION['username'] = $username;
-            $stmt->close();
-            $connection->close();
             header('Location: dashboard.php');
             exit();
         } else {

@@ -5,7 +5,6 @@
     
     $query = "SELECT * FROM Chatroom";
     $result = $connection->query($query);
-    
     if($result->num_rows > 0)
     {
         while($row = $result->fetch_assoc())
