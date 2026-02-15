@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Controllo autenticazione
 if (!isset($_SESSION['auth']) || $_SESSION['auth'] !== true) {
     header('Location: login.php');
     exit();
@@ -10,52 +9,51 @@ if (!isset($_SESSION['auth']) || $_SESSION['auth'] !== true) {
 require_once "db.php";
 
 $username = $_SESSION['username'];
-$error_message = "";
-$success_message = "";
+$error = "";
+$success = "";
 
-// Gestione upload file
+// Upload file
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['upload'])) {
-    $nome_file = $_POST['nome_file'];
-    $contenuto = $_POST['contenuto'];
     
-    if (!empty($nome_file) && !empty($contenuto)) {
+    if (isset($_FILES['file_upload']) && $_FILES['file_upload']['error'] === UPLOAD_ERR_OK) {
+        
+        $file_name = $_FILES['file_upload']['name'];
+        $file_tmp = $_FILES['file_upload']['tmp_name'];
+        
+        $contenuto = file_get_contents($file_tmp);
+        $contenuto = base64_encode($contenuto);
+        
         $stmt = $connection->prepare("INSERT INTO File (Nome, Contenuto, Username) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $nome_file, $contenuto, $username);
+        $stmt->bind_param("sss", $file_name, $contenuto, $username);
         
         if ($stmt->execute()) {
-            $success_message = "File caricato con successo!";
+            $success = "File caricato!";
         } else {
-            $error_message = "Errore durante il caricamento del file.";
+            $error = "Errore caricamento.";
         }
         $stmt->close();
-    } else {
-        $error_message = "Compila tutti i campi.";
     }
 }
 
-// Gestione eliminazione file
+// Elimina file
 if (isset($_GET['delete'])) {
     $file_id = intval($_GET['delete']);
     
-    // Verifica che il file appartenga all'utente loggato
     $stmt = $connection->prepare("DELETE FROM File WHERE ID = ? AND Username = ?");
     $stmt->bind_param("is", $file_id, $username);
-    
-    if ($stmt->execute()) {
-        $success_message = "File eliminato con successo!";
-    } else {
-        $error_message = "Errore durante l'eliminazione del file.";
-    }
+    $stmt->execute();
     $stmt->close();
+    
+    $success = "File eliminato!";
 }
 
-// Recupera i file dell'utente loggato
-$stmt = $connection->prepare("SELECT ID, Nome, Data, Contenuto FROM File WHERE Username = ? ORDER BY Data DESC");
+// Prendi i file
+$stmt = $connection->prepare("SELECT ID, Nome, Data FROM File WHERE Username = ? ORDER BY Data DESC");
 $stmt->bind_param("s", $username);
 $stmt->execute();
 $result = $stmt->get_result();
-$files = [];
 
+$files = [];
 while ($row = $result->fetch_assoc()) {
     $files[] = $row;
 }
@@ -63,3 +61,55 @@ while ($row = $result->fetch_assoc()) {
 $stmt->close();
 $connection->close();
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Ciao, <?php echo $username; ?>!</h1>
+   
+    <h2>Carica un file</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file_upload" required>
+        <button type="submit" name="upload">Carica</button>
+    </form>
+    
+    <?php if ($error): ?>
+        <p style="color: red;"><?php echo $error; ?></p>
+    <?php endif; ?>
+    
+    <?php if ($success): ?>
+        <p style="color: green;"><?php echo $success; ?></p>
+    <?php endif; ?>
+
+    <hr>
+    
+    <h2>I miei file</h2>
+    <?php if (count($files) > 0): ?>
+        <table border="1">
+            <tr>
+                <th>Nome</th>
+                <th>Data</th>
+                <th>Azioni</th>
+            </tr>
+            <?php foreach ($files as $file): ?>
+                <tr>
+                    <td><?php echo $file['Nome']; ?></td>
+                    <td><?php echo $file['Data']; ?></td>
+                    <td>
+                        <a href="download.php?id=<?php echo $file['ID']; ?>">Scarica</a> | 
+                        <a href="?delete=<?php echo $file['ID']; ?>" onclick="return confirm('Sicuro?');">Elimina</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php else: ?>
+        <p>Nessun file caricato.</p>
+    <?php endif; ?>
+    
+    <hr>
+    <a href="logout.php">Esci</a>
+</body>
+</html>

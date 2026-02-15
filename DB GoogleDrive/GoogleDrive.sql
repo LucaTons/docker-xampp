@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Creato il: Feb 11, 2026 alle 11:43
+-- Creato il: Feb 15, 2026 alle 18:09
 -- Versione del server: 11.3.2-MariaDB-1:11.3.2+maria~ubu2204
 -- Versione PHP: 8.2.27
 
@@ -29,12 +29,15 @@ USE `GoogleDrive`;
 -- Struttura della tabella `File`
 --
 
-CREATE TABLE `File` (
-  `ID` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `File` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Nome` varchar(255) NOT NULL,
-  `Data` date NOT NULL DEFAULT current_timestamp(),
-  `Contenuto` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `Contenuto` longtext NOT NULL,
+  `Data` timestamp NULL DEFAULT current_timestamp(),
+  `Username` varchar(255) NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `Username` (`Username`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -42,37 +45,24 @@ CREATE TABLE `File` (
 -- Struttura della tabella `Utenti`
 --
 
-CREATE TABLE `Utenti` (
+CREATE TABLE IF NOT EXISTS `Utenti` (
   `Username` varchar(255) NOT NULL,
   `Email` varchar(255) NOT NULL,
-  `Password` varchar(255) NOT NULL
+  `Password` varchar(255) NOT NULL,
+  `DataRegistrazione` timestamp NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`Username`),
+  UNIQUE KEY `Email` (`Email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Indici per le tabelle scaricate
+-- Limiti per le tabelle scaricate
 --
 
 --
--- Indici per le tabelle `File`
+-- Limiti per la tabella `File`
 --
 ALTER TABLE `File`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Indici per le tabelle `Utenti`
---
-ALTER TABLE `Utenti`
-  ADD PRIMARY KEY (`Username`);
-
---
--- AUTO_INCREMENT per le tabelle scaricate
---
-
---
--- AUTO_INCREMENT per la tabella `File`
---
-ALTER TABLE `File`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  ADD CONSTRAINT `File_ibfk_1` FOREIGN KEY (`Username`) REFERENCES `Utenti` (`Username`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

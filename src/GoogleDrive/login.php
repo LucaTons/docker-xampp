@@ -3,73 +3,61 @@ session_start();
 
 require_once "db.php";
 
-$error_message = "";
+$error = "";
 
-// Per controllare che venga fatto il login tramite POST
-if ($_POST && isset($_POST['username']) && isset($_POST['password']) && isset($_POST['email'])) {
+if ($_POST) {
     $username = $_POST['username'];
     $email = $_POST['email'];
-    $password_input = $_POST['password']; 
+    $password = $_POST['password'];
     
-    // Query per prendere solo l'utente specifico
-    $stmt = $connection->prepare("SELECT * FROM Utenti WHERE Username = ? && Email = ?");
+    $stmt = $connection->prepare("SELECT Password FROM Utenti WHERE Username = ? AND Email = ?");
     $stmt->bind_param("ss", $username, $email);
     $stmt->execute();
-    $result = $stmt->get_result();    
+    $result = $stmt->get_result();
     
-    if ($result && $result->num_rows > 0) { 
+    if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        $hashed_password = $row['Password'];
         
-        // Verifica la password
-        if ($hashed_password !== null && password_verify($password_input, $hashed_password)) {
+        if (password_verify($password, $row['Password'])) {
             $_SESSION['auth'] = true;
             $_SESSION['username'] = $username;
             header('Location: dashboard.php');
             exit();
-        } else {
-            $error_message = "Username, email o password non corretti.";
         }
-    } else {
-        $error_message = "Username, email o password non corretti.";
     }
+    
+    $error = "Username, email o password sbagliati.";
     $stmt->close();
-    $connection->close(); 
 }
+
+$connection->close();
 ?>
 
 <!DOCTYPE html>
-<html lang="it">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - GoogleDrive</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Login</title>
 </head>
 <body>
-    <h2>Accedi</h2>
+    <h2>Login</h2>
     
-    <?php if ($error_message)
-        echo htmlspecialchars($error_message); 
-    ?>
+    <?php if ($error): ?>
+        <p style="color: red;"><?php echo $error; ?></p>
+    <?php endif; ?>
     
-    <form action="login.php" method="POST">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username">
-        <br>
-        <br>
-        <label for="username">Email</label>
-        <input type="text" id="email" name="email">
-        <br>
-        <br>
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password">
-        </br>
-        <br>
-        <button type="submit"">Accedi</button>
-        </br>
+    <form method="POST">
+        <label>Username:</label><br>
+        <input type="text" name="username" required><br><br>
+        
+        <label>Email:</label><br>
+        <input type="email" name="email" required><br><br>
+        
+        <label>Password:</label><br>
+        <input type="password" name="password" required><br><br>
+        
+        <button type="submit">Entra</button>
     </form>
-    <br><br>Non hai un account? <a href="register.php">Registrati</a></br></br>
     
+    <p>Non hai un account? <a href="register.php">Registrati</a></p>
 </body>
 </html>
