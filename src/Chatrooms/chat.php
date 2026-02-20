@@ -13,11 +13,11 @@ if ($_SESSION && isset($_SESSION['username']))
         $row2 = $result->fetch_assoc();
         echo "Messaggi della stanza " . $row2['Nome'];
         echo "<br>";
+        echo "<br>";
         //query dalla tabella messaggi e visualizzo i contenuti
         $nomeStanza = $row2['Nome'];
         $query = "SELECT * FROM Messaggi WHERE NomeStanza = '$nomeStanza'";
         $result = $connection->query($query);
-        var_dump($result->num_rows);
         if ($result->num_rows > 0)
         {
             while($row = $result->fetch_assoc())
@@ -33,9 +33,7 @@ if ($_SESSION && isset($_SESSION['username']))
     {
         $msg = $_POST['messaggio'];
         $user = $_SESSION['username'];
-        var_dump($msg);
         $queryInsMsg = "INSERT INTO Messaggi (`Testo`, `NomeStanza`, `User`) VALUES ('$msg','Prova', '$user')";
-        var_dump($queryInsMsg);
         $result = $connection->query($queryInsMsg);
     }
 }
@@ -53,10 +51,15 @@ $connection->close();
 </head>
 <body>
     <form action="" method="POST">
-        <label for="messaggio">Messaggio</label>
-        <input type="text" id="messaggio" name="messaggio">
         <br>
+        <label for="messaggio">Inserisci Messaggio</label>
+        <br>
+        <input type="text" id="messaggio" name="messaggio">
+
         <button type="submit">Invia</button>
+        <br>
+        <br>
+        <a href="dashboard.php">← Torna alla dashboard</a>
     </form>
 </body>
 </html>
