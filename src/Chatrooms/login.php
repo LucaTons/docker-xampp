@@ -64,7 +64,7 @@ if ($_POST && isset($_POST['username']) && isset($_POST['password'])) {
         <button type="submit"">Accedi</button>
         </br>
     </form>
-    <br><br>Non hai un account? <a href="register.php">Registrati</a></br></br>
+    <br><br><div class="auth-footer">Non hai un account? <a href="register.php">Registrati</a></div>
     
 </body>
 </html>

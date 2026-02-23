@@ -75,6 +75,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset(
         <br>
         <button type="submit" class="btn-primary">Registrati</button>
     </form>    
-    <br><br>Hai già un account? <a href="login.php">Accedi</a></br></br>
+    <br><br><div class="auth-footer">Hai già un account? <a href="login.php">Accedi</a></div></br></br>
 </body>
 </html>
