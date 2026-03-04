@@ -47,6 +47,26 @@ if (isset($_GET['delete'])) {
     $success = "File eliminato!";
 }
 
+// Rinomina file
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rename'])) {
+    $file_id = intval($_POST['rename_id']);
+    $new_name = trim($_POST['new_name']);
+
+    if (!empty($new_name)) {
+        $stmt = $connection->prepare("UPDATE File SET Nome = ? WHERE ID = ? AND Username = ?");
+        $stmt->bind_param("sis", $new_name, $file_id, $username);
+
+        if ($stmt->execute()) {
+            $success = "File rinominato!";
+        } else {
+            $error = "Errore durante la rinominazione.";
+        }
+        $stmt->close();
+    } else {
+        $error = "Il nome non può essere vuoto.";
+    }
+}
+
 // Prendi i file
 $stmt = $connection->prepare("SELECT ID, Nome, Data FROM File WHERE Username = ? ORDER BY Data DESC");
 $stmt->bind_param("s", $username);
@@ -99,8 +119,16 @@ $connection->close();
                     <td><?php echo $file['Nome']; ?></td>
                     <td><?php echo $file['Data']; ?></td>
                     <td>
-                        <a href="download.php?id=<?php echo $file['ID']; ?>">Scarica</a> | 
-                        <a href="?delete=<?php echo $file['ID']; ?>" onclick="return confirm('Sicuro?');">Elimina</a>
+                        <a href="download.php?id=<?php echo $file['ID']; ?>">Scarica</a> |
+                        <a href="download.php?id=<?php echo $file['ID']; ?>&action=view" target="_blank">Apri</a> |
+                        <a href="#" onclick="document.getElementById('rename-<?php echo $file['ID']; ?>').style.display='inline'; return false;">Rinomina</a>
+                        <form id="rename-<?php echo $file['ID']; ?>" method="POST" style="display:none; margin-top:4px;">
+                            <input type="hidden" name="rename_id" value="<?php echo $file['ID']; ?>">
+                            <input type="text" name="new_name" value="<?php echo htmlspecialchars($file['Nome']); ?>" required>
+                            <button type="submit" name="rename">Salva</button>
+                            <button type="button" onclick="document.getElementById('rename-<?php echo $file['ID']; ?>').style.display='none';">Annulla</button>
+                        </form> |
+                        <a href="?delete=<?php echo $file['ID']; ?>" onclick="return confirm('Sicuro?');">Elimina</a>                        
                     </td>
                 </tr>
             <?php endforeach; ?>

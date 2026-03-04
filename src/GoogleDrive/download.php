@@ -10,6 +10,7 @@ require_once "db.php";
 
 $username = $_SESSION['username'];
 $file_id = intval($_GET['id']);
+$action = isset($_GET['action']) ? $_GET['action'] : 'download';
 
 $stmt = $connection->prepare("SELECT Nome, Contenuto FROM File WHERE ID = ? AND Username = ?");
 $stmt->bind_param("is", $file_id, $username);
@@ -21,8 +22,16 @@ if ($result->num_rows > 0) {
     
     $contenuto = base64_decode($file['Contenuto']);
     
-    header('Content-Type: application/octet-stream');
-    header('Content-Disposition: attachment; filename="' . $file['Nome'] . '"');
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $mime_type = $finfo->buffer($contenuto);
+
+    if ($action === 'view') {
+        header('Content-Type: ' . $mime_type);
+        header('Content-Disposition: inline; filename="' . $file['Nome'] . '"');
+    } else {
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="' . $file['Nome'] . '"');
+    }
     
     echo $contenuto;
     exit();
