@@ -20,7 +20,7 @@ services:
     image: phpmyadmin:5.2.1-apache
     restart: unless-stopped
     depends_on:
-      - db
+      - db2
     environment:
       PMA_USER: root
       PMA_PASSWORD: root
